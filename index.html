@@ -1,0 +1,80 @@
+<?php
+  require_once("/home/todohoo/php/todohoo_config.php"); 
+
+  require_once($GLOBALS['phpPath'] . "/buildCategoryTree.php"); 
+  ?>
+
+<!doctype html>
+<html>
+  <head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon" type="image/gif" href="<?=getFavIcon();?>" />
+    <title>ToDoHOO!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+    <link type="text/css" rel="stylesheet" href="./resources/thirdparty/jquery/css/jquery-ui-1.10.0.custom.min.css" />
+    <link type="text/css" rel="stylesheet" href="<?=addSiteVersion('./resources/css/reset.css');?>" />
+    <link type="text/css" rel="stylesheet" href="<?=addSiteVersion('./resources/css/layout.css');?>" />
+    <link type="text/css" rel="stylesheet" href="<?=addSiteVersion('./resources/css/menu.css');?>" />
+
+
+    <script type="text/javascript" src="./resources/thirdparty/jquery/js/jquery-1.9.0.js"></script>
+    <script type="text/javascript" src="./resources/thirdparty/jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
+    <script type="text/javascript" src="<?=addSiteVersion('./resources/js/jq-tree.js');?>"></script>
+    <script type="text/javascript" src="<?=addSiteVersion('./resources/js/eventMarkers.js');?>"></script>
+    <script type="text/javascript" src="<?=$GLOBALS['googleMap']?>"></script>
+
+    <script type="text/javascript" src="<?=addSiteVersion('./resources/js/map.js');?>"></script>
+    <script type="text/javascript" src="<?=addSiteVersion('./resources/js/global.js');?>"></script>
+    <script type="text/javascript" src="<?=addSiteVersion('./resources/js/index.js');?>"></script>
+  </head>
+
+  <body>
+    <img id="logo" src="<?=getToDoHooIcon();?>" style="position:absolute; display:block; top:0; z-index:2;">
+    <div class="main" style="margin-top:126px;">
+    <?php include("main-menu.html"); ?>
+      <div class="content">
+        <div class="right controls" style="color:white; border-top:5px solid #222222;">
+          <div class="div-space"></div>
+          <div id='date-tabs'>
+            <ul>
+              <li id='today-tab'><a href='#tab-1'><span>Today</span></a></li>
+              <li id='weekend-tab'><a href='#tab-2'><span>Weekend</span></a></li>
+              <li id='custom-tab'><a href='#tab-3'><span>Custom</span></a></li>
+            </ul>
+            <div id="tab-1"></div>
+            <div id="tab-2"></div>
+            <div id="tab-3">
+              <label for="from" class="date-label">From</label>
+              <input type="text" id="from_date" name="from_date" size="10"/>
+              <label for="to" class="date-label">To</label>
+              <input type="text" id="to_date" name="to_date" size="10"/>
+            </div>
+          </div>
+          
+          <!-- Location DIV -->
+          <div class="ui-widget ui-widget-header ui-tabs">
+            <div class="ui-corner-all">
+              Location
+              <div>
+                <input type="text" id="location" class="hint default" value="Zip, city/state..." style="width:150px;" >
+                <button id="Go">Go</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="div-space"></div>
+          <input type="button" name="Search" value="Search"/>
+          <input type="button" name="Previous" value="< Prev"/>
+          <input type="button" name="Next" value="Next >"/>
+          <input type="button" onClick="Javascript:Index.map.showBounds();" value="Show Bounds"/>
+          <?php buildTree(); ?>
+          <div id="dialog">
+          </div>
+        </div>
+        <div class="right" id="map"></div>
+      </div>
+    </div>
+    <div class="credit">Background image licensed under Creative Commons Attribution-Share Alike 2.0 Generic license. Author William Cho. 2/18/2010.</div>
+  </body>
+</html>

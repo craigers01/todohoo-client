@@ -1,0 +1,25 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>HOOps!</title>
+<meta name="keywords" content="404, page, file, URL, not, found, error">
+<meta name="description" content="404 - File Not Found">
+<link type="text/css" rel="stylesheet" href="<?= addSiteVersion('./resources/css/layout.css'); ?>" />
+</head>
+<body>
+<h1>Not Found</h1>
+<img src="./resources/images/Hoo_Error.png"/>
+<p>The requested page or file was not found:</p>
+<p><b><!--#echo var="HTTP_HOST" --><!--#echo var="REQUEST_URI" --></b></p>
+
+<p>This could be because of a broken or outdated hyperlink, a typing error, or the page might not exist anymore.</p>
+<p>Please come back to our <a href="http://todohoo.com"><b>Home Page</b></a> 
+and try again.</p>
+
+<p>&nbsp;</p>
+<hr>
+
+
+</body>
+</html>

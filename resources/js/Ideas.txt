@@ -1,0 +1,237 @@
+Prototype Features:
+
+>> Venue has been selected, process NEXT wizard step (date Selection)
+X Pass Map Bounds during Add Venue; use them in SQL.
+X View Events in your area
+X Add venues
+- Add events
+- Membership
+- Add Performer
+
+- AddEvent:
+  - Would be nice to, from MyVenues/MyPerformers, click AddEvent to jump into Wizard
+  - Let's assume, Select Venue is the first step (Venue ID or Band ID may be passed)
+  - Select Venue
+    - Select From My Venues (ones I own); Differ to after membership.
+    - Select from My Fav Venues (ones I have Marked as Fav) Differ to after membership.
+    - Search Map (with search term?)
+
+
+  - Select Category
+  - Add Performer (is this option category dependent) Differ to after Add Performer.
+    - Temporary: Just Enter a description
+    - Select From My Performer (ones I own); 
+    - Select from My Fav Performer (ones I have Marked as Fav)
+    - Search Map (with search term?)
+  - Select Date/Recurrence 
+    - Max-date limit (1 year?). Write all occurrences.
+    - Checkbox: Remind me when it is going to expire?
+  - Add More Dates for this 
+  - Save; update Venue/Performer access date
+  - What Next?
+  - Enhance instructions on each step.
+
+AddVenue:
+X Add Activities should be next Wizard step.
+- How do we deal with general/specific Persistent Activities classes? Not sure of an example, but, if indoor/outdoor 
+  racketball exists, then we would not want to clutter our dropdown list with all variants.
+- SQL error (such as when zipcode was smallint, does not report error; just saves badly).
+- Map still flakes out. Maybe rebuild each visit versus move?
+X Parse Success
+- Notify user of error or success (search the new Venue; encourage add event)
+- Wizard is going to need to handle non-sequential steps; maybe now is the time
+  to address? Maybe SAVE Venue takes us to the next step (Options of what next:
+  Add Events, Return Home..
+- Invalid web address (www.reddit.com) does not report issue; i see it in debug
+
+Pending:
+- Put Prev/Next buttons somewhere pretty
+- Add Search DIV
+- Create addEvent page
+- Replace menu with menu bar? (available in next jUI release)
+
+Recent:
+
+Misc Ideas/ Future ToDo:
+- Check if venue exists before saving.
+- Global error log
+- Tabbed info window example: http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/examples/example.html/
+- sort by rating/promotion
+  - Add Venue/Band rating/promotion in SQL to get final rating
+  - Highest rating is also highest Z-order
+- Push to prod script; minimified?
+- When adding venues, restrict category IDs? so that live music is not persistent?
+- Add Categories to capture museum and zoo
+- Add code to handle category terms passed to index.php.
+  - Run specific search using that criteria (i.e. outsite.com/index.php?GarageSales).
+  - We could cross-promote our site to tons of different niches by linking our site on
+    related forums/etc. We could specialize the main page according to the category.
+- Add Cookies to recall username, default location (use cookie location instead of geo-lookup)
+- Give users the option to review events that attended (added to ToDo cart)
+- Category Images so that pushpens can have images
+- A Performer may have a "Similar to" relationship so that a Tribute Band could be comprehended.
+  If Pink Floyd is a Favorite performer of yours, you may want to know when the Austrailian Pink
+  Floyd is in town.
+- Plan my date. Select Time period, Location, Things to do (Dinner, Dancing, Movie), and let US
+  plan your evening! Promotion Nirvana!
+- Could our Itenerary data be transferred to a GPS app?
+- Prevent Bots from swiping our site. When user sends hits our site; send back some kind of key. Expect that
+  key for a DB lookups. That way user cannot write simple script to do a DB lookup. Any script written one
+  day would not work the next. They could still figure this out and add the initial hit, but at least make
+  them work for it.
+	
+ToDoHOO
+App ID: 	185771901575410
+App Secret: 	2ec06c460d9e0b4cf6c7ee4b4848b1ae(reset)
+This app is in Sandbox Mode(Only visible to Admins, Developers and Testers)
+
+DESIGN=====================================
+- Temporary Events:
+  - Venue tables will have temp column
+  - Clean up will delete temporary venues where event has expired (before deleteing event)
+- Persistent Events
+  - Some venue types have persistent events (i.e. Restaraunt, Bowling Alley). So should this be indicated by a DB field?
+  - We should limit persistent events (activity) by event type. Live music = NO. 
+Main Page:
+Menu
+MAP (with default search results)
+Search criteria w/Calendar
+Member's Login
+Add to Iteneray (ToDo Cart)
+View/Print ToDo Cart (Event details, Address, optional directions, optionally between places)
+
+Menu:
+Home
+MyGetOut (Manage preferences: Email options, Favortie Entertainers/Categories/Venues)
+Add Event
+About (page describes goals, emphasis on Free, benefits of membership)
+Contact
+
+Other Controls:
+Search (text, advanced)
+Next/Prev Search
+Calendar
+Categories
+View/Edit ToDo Cart
+
+Data Definitions:
+Event: A planned social occasion with a time and venue
+ - Scheduled: An event in which there is a date/time it will occur (e.g. Concert)
+ - Persistent: An event that is always available (e.g. Bowling, Dinner at a restaurant)
+Venue: Location where one or multiple events can occur. Name may not be unique.
+Entertainer: An performer which may provide enterainment at an Event (e.g. Band)
+Venue and Entertainer names may not be unique. When imporinting, we may need to
+consider a method from differentiating such a geoloc and/or data originator so
+that the incoming data source does not have to comprehed our keys. Movie name
+may need to fit in this field.
+
+Characteristics:
+ Additional descriptors/tags such as: Kid-Friendly, Religious, Free, Local-Exclusive etc.
+
+Login States:
+1) Member-Logged in:
+   - Browse Events
+   - Option to "keep logged in"
+   - Add: Venue, Performer, Event
+   - Manage Profile (Email prefs, pwd, favorite venues/performers)
+   - View/Edit saved ToDo cart
+   - Manage MyVenues (access control, add/remove events, etc)
+   - Manage MyEvents (access control, add/remove events, etc)
+   - Manage MyEnterainers (access control, add/remove events, etc)
+   - Rate/Review attended events
+   - Rate/Review Venues, Performers, etc.
+2) Guest Browsing: 
+   - Browse Events
+   - View/Edit temporary ToDo cart
+
+Add Venue:
+   - Select Location
+     - Browse Map for location.
+     - Click map for location.
+     - Allow dragging pin for location refinement.
+     - Require minimum zoom to insure accuracy.
+   - Select security
+     - I own/manage this venue
+       - I want to control who can add events (i.e. Member or Performer. Performer would allow
+         control to all members with access to the Performer)
+     - This is a public venue I do not own (remains public until a venue owner claims control)
+
+Take Ownership of venue
+   - Not sure how to control this, but it seems reasonable to think that a user may create a venue
+     before the venue owner is on-board.
+
+Add Event Wizard:
+- Select Venue
+   - Add to Exisiting Venue
+     - Allow user to browse map for an existing menu. Pin click selects the venue.
+       If the user does not find the venue, he may return to the "Select Venue" options.
+   - Create New (Permanent) venue
+   - Add event to a temporary venue (one-time location)
+- Select Event Category, Characteristics
+- Select Performer, if applicable
+- Define Persistent Event, One-time, or recurrance
+
+Add Performer:
+
+Search:
+ - User may be searching for one thing at a time, or mulitple. He may select these
+   things based on proximity.
+ - Only find events given the Map current center/zoom (on the map)
+ - Return a fixed number of events (maybe add control to show more/less?)
+ - Take a proportional sample of each category
+   - If user selected dinner/music/movie, then consider the best approach. Take an
+     even number from each, OR consider the proportion of the total events and
+     include the relative number. No use in running out of events of a certain type
+     when paging to the next group. Also, maybe if there are only a few hits from
+     a category, we display them on every "page turn".
+   - Consider search priority. Weight by rating (an event's Venue/Entertainer rating)
+     and by paid promotion.
+
+Default Landing:
+ - If Member has "remained logging in", then search based on his preferences.
+ - Include Paid promotions
+ - Seasonal: Haunted Houses at Halloween, Easter Egg hunts
+
+Auto Imports:
+- Need to manage auto import from remote sites.
+
+Emails:
+- User may elect a weekly event email (weekend review)
+- User may elect notification of an Entertainer showing up locally
+- User may elect an interary reminder
+- Admin stuff:
+  - Notify a venue/performer before purging (due to inactivity)
+
+SPAM:
+ - System is read-only for Guests.
+ - Membership validation uses email link validation.
+ - Challenge-Response for all DB writes (add event, venue, etc)
+ - Allow users to report violations
+ - Members may have a rating based on a heuristic. The accuracy of their Ratings/violation 
+   reporting/volume, etc could develop their trust-score. If they mark something as a violation
+   or Rate something high/low, and it matches other Members with a high trust score, they
+   gain ratings. If they differ significantly from opinions of highly trusted members, then
+   their trust-score goes down.
+ - Ratings and violations would consider the Member opinions based on their Trust score.
+ - Membership cancelled for EULA violations.
+ - Track IPA to detect SPAM?
+
+EULA:
+ - Service is provided without any gurantee of accuracy. It is highly recommended that you contact a
+   Venue to confirm events/etc. to insure accuracy. 
+
+PROMOTION:
+- Create Commercial
+- Share commercial on FaceBook
+- Advertise commerical on youtube, locally
+- Consider partnering with CSL?
+  - Pitch end of life SCL? This would kick-start our Brevard presence..
+  - Would have to import Member permissions (venue owners, passwords, etc)
+  - If not, we need to figure out how an import would work relating their venue_id to
+    our venue_id.
+    - Name matches within Geo-bounds?
+
+
+
+Update EVENTS Query
+UPDATE `events` SET `date`="2016-01-23" WHERE CAT_ID LIKE "1.1%"
