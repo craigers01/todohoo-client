@@ -1,0 +1,152 @@
+html { font-size: 0.8em; }
+
+html,
+button,
+input,
+select,
+textarea {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+body {
+  background: #000 url('/resources/images/city_bg.jpg') no-repeat center; 
+}
+
+/* Goodle Maps Info Window (popup) */
+.iWindow {
+	width: 275px;
+	height: 150px;
+        color: black;
+} 
+
+.main {
+	width: 800px;
+	height: 700px;
+	background-color: #640866;
+	margin: 10px auto 0 auto;
+	border: 6px #640866 solid;
+	border-radius: 15px;
+}
+
+.content .right { 
+  float:right;
+	height: 651px;
+	width: 240px;
+	border: 3px #30576F solid;
+}
+
+.content .right.add-venue {
+  height: 515px;
+}
+
+.background {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.content .right.controls {
+border-radius: 0 0 15px 0;
+border-left:0;
+margin-right:1px;
+}
+
+.map-popup {
+    color: #000000;
+}
+
+.date-btn-active {
+  color:black;
+}
+
+.date-btn-inactive {
+  color:red;
+}
+
+#map {
+	width: 549px;
+	border-radius: 0 0 0 15px;
+}
+
+
+/*  jq-tree styles */
+ul.tree {
+    margin-left: 10px;
+    padding: 0;
+}
+ul.tree ul {
+  margin:2px 0;
+  padding: 0;
+}
+ul.tree .hidden {
+    display: none;
+}
+ul.tree li {
+    cursor: pointer;
+    line-height: 1.4em;
+    list-style-type: none;
+    padding-left: 15px;
+}
+ul.tree li input { margin-right:10px; }
+ul.tree li.expanded {
+    background: url("../images/minus.gif") no-repeat scroll left top transparent;
+}
+ul.tree li.condensed {
+    background: url("../images/plus.gif") no-repeat scroll left top transparent;
+}
+ul.tree li.leaf {
+    cursor: default;
+}
+/*  jq-tree styles */
+
+/* #categoryTreeDiv { height:500px; overflow-y:auto; background:white; color:black; } */
+#categoryTreeDiv { height:433px; overflow-y:auto; border-bottom-right-radius: 15px}
+
+
+.ui-tabs .ui-tabs-nav li a, .ui-button-text-only .ui-button-text { padding:0.4em; }
+#date-tabs ul.ui-widget-header { border: none; background: none repeat scroll 0 0 #3E698C;
+ }
+#date-tabs .ui-widget-content{ border: 3px solid #3E698C; }
+
+.div-space {margin: 3px 0px 3px 0px;}
+
+.date-tab { height:35px; text-align: center;}
+
+/* Arrange To/From Date textboxes and labels*/
+.date-fieldset {
+  border:none;
+  width:188px;
+  margin:0px auto;
+}
+.date-label {
+  display:inline-block;
+  width:50px;
+  margin-right:10px;
+  text-align:right;
+}
+.credit {
+  color: #444444;
+  text-align: center;
+}
+
+input.hint {
+    color: grey;
+    font-size: 0.9em;
+}
+
+#review-venue-logo{
+    max-width:150px;
+    max-height:150px;
+}
+
+.form label { display:block; margin-top:10px; font-size:1.2em; font-weight:bold; color:#cfcfcf; }
+.form input, .form textarea { width:100%; }
+
+.wizard .step h2 {color:#cfcfcf; text-align:center;}
+.wizard .step { display:none; margin:0 auto; width:800px; height:643px; }
+.wizard .step .buttons { padding-top:10px;}
+
+.required { color:red; }

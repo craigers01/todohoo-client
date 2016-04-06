@@ -24,6 +24,8 @@
 //   options.initZoom: Inital Zoom level for the map
 //   options.mapType: Map type to be shown (valid google.maps.MapTypeId)
 //     "hybrid", "roadmap", "terrain", "satellite"
+//   options.miscGoogleMapOptions: Array of valid Google Map options passed
+//     AS-IS to google map
 ////////////////////////////////////////////////////////////////////////////
 
 // Constructor
@@ -52,6 +54,10 @@ function Map(mapDiv, options) {
     this.mapType = 'roadmap';
   }
 
+  if (options.miscGoogleMapOptions !== "") {
+      this.miscGoogleMapOptions = options.miscGoogleMapOptions;
+  }
+  
   this.geocoder = new google.maps.Geocoder();  
 
   if(options.geoLocOrAddress === undefined) {
@@ -89,6 +95,10 @@ Map.prototype = {
         zoom: this.initZoom,
         mapTypeId: this.mapType
       });    
+      if (this.miscGoogleMapOptions !== "") {
+        this.map.setOptions(this.miscGoogleMapOptions);
+      }
+
       google.maps.event.addListener(this.map, 'idle', function() {
         thisObj.idleHandler();
       });
@@ -347,15 +357,17 @@ Map.prototype = {
 };
 
 var PopupBuilder = {
-  addEvent_Venue : function(name, description, venueId){
+  addEvent_Venue : function(name, description, venueId, lat, lng){
     var html =
         "<div class='map-popup'>" +
         "<h4 style='margin-bottom:10px; border-bottom:1px solid grey;'>%name</h4>"+
         "<div>%description</div>" +
-        "<input type='button' value='Select this Venue' onclick='VenueMarkers.venueSelected(\"%name\", %id);'/>" +
+        "<input type='button' value='Select this Venue' onclick='VenueMarkers.venueSelected(\"%name\", %id, %lat, %lng);'/>" +
         "</div>";
     return html.replace(/%name/g, name).
                 replace(/%description/g, description).
-                replace(/%id/g, venueId);
+                replace(/%id/g, venueId).
+                replace(/%lat/g, lat).
+                replace(/%lng/g, lng);
   }
 };

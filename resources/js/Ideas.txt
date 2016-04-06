@@ -1,12 +1,13 @@
 Prototype Features:
+X layout.css
+X Event TIME: Format depending on presence of endTime BEFORE SAVE
+- Event URL: Validate it
+>> Add performer
+X Review before save (Show on Map)
 
->> Venue has been selected, process NEXT wizard step (date Selection)
-X Pass Map Bounds during Add Venue; use them in SQL.
-X View Events in your area
-X Add venues
 - Add events
 - Membership
-- Add Performer
+- Add Performer (Define location? In SCL ALL BANDs are avail. Todohoo is global. Handle search. Require ZIPCODE?)
 
 - AddEvent:
   - Would be nice to, from MyVenues/MyPerformers, click AddEvent to jump into Wizard

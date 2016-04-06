@@ -87,10 +87,15 @@ Wizard.prototype = {
   },
   
   save : function () {
-    if (this.current.save !== undefined) {
-      this.current.save();
+    if(this.current.isValid()) {
+      if (this.current.save !== undefined) {
+        this.current.save();
+      }
     }
-   }
+    else {
+      this.current.showInvalidMessage();
+    }
+  }
 };
 
 function WizardStep() {}
@@ -102,16 +107,23 @@ WizardStep.prototype = {
   },
   
   isValid : function() { return true; },
-  showInvalidMessage : function() {
-    new StatusDialog({
-      content : this.errorMsg,
-      title : "Invalid Location",
-      modal : true,
-      type : StatusDialog.error
-    });
-  },
+  
+    showInvalidMessage : function() {
+      new StatusDialog({
+        content : this.getInvalidMessageContent(),
+        title : this.getInvalidMessageTitle(),
+        modal : this.isInvalidMessageModal(),
+        type : this.getInvalidMessageType()
+      })
+    },
+
+  getInvalidMessageContent: function() { return this.errorMsg; },
+  getInvalidMessageTitle: function() { return "Invalid Location"; },
+  isInvalidMessageModal: function() { return true; },
+  getInvalidMessageType: function() { return StatusDialog.error; },
   
   stepShown : function() {  },
+  
   stepHidden : function() {  }
 };
 

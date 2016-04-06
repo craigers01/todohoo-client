@@ -83,7 +83,7 @@ var Index = {
         checkedIds.splice(i,1);
       }
     }
-    var markersArray = eventMarkers.searchMarkers(Index.map.map, checkedIds.join(","),
+    var markersArray = EventMarkers.searchMarkers(Index.map.map, checkedIds.join(","),
       $("#from_date").val(),$("#to_date").val(),
       mapBounds.query.minLat, mapBounds.query.maxLat,
       mapBounds.query.minLng, mapBounds.query.maxLng,

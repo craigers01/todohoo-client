@@ -72,15 +72,8 @@ var AddVenue = {
         return true;
         },
 
-      showInvalidMessage : function() {
-        new StatusDialog({
-          content : this.errorMsg,
-          title : "Error adding Venue",
-          modal : true,
-          type : StatusDialog.error
-        });
-        this.errorMsg = "";
-      }
+      getInvalidMessageContent: function() { return this.errorMsg; },
+      getInvalidMessageTitle: function() { return "Error adding Venue"; }
 
     }
   );
@@ -322,7 +315,7 @@ var AddVenue = {
                   $(this).dialog("close");
                   window.location.href = window.location.protocol + '//' + window.location.hostname + "/addVenue.html";
                 },
-                "Add another Event" : function() { $(this).dialog("close"); },
+                "Add another Event" : function() { $(this).dialog("close");  window.location.reload();},
                 "Main Page" : function() {
                   $(this).dialog("close");
                   window.location.href = window.location.protocol + '//' + window.location.hostname;

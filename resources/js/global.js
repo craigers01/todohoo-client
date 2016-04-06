@@ -41,21 +41,40 @@ var Globals = {
     $treeRoot.jqTree();
     $treeRoot.find("input")
           .click(function(event) {
+            $treeRoot.find("input");
             event.stopPropagation();
             var $input = $(this);
             var refNodeIsChecked = $input.is(":checked");
-            // If Unchecking node, uncheck all ancestors 
-            if(!refNodeIsChecked) {
-              $input.parentsUntil($treeRoot, "li").children("input").each(function() {
-                $(this).removeAttr("checked");
+            var forceOneChoice = $treeRoot.data('forceOneChoice');
+            if (forceOneChoice === true) {
+              // Uncheck EVERYTHING else
+              if (refNodeIsChecked) {
+                $treeRoot.find("input").each(function() { 
+                  var $thisInput = $(this);
+                  if($input.val() !== $thisInput.val()) {
+                      $thisInput.prop("checked", false);
+                  }; 
+                });                  
+              }
+            } else {
+              // If Unchecking node, uncheck all ancestors 
+              if(!refNodeIsChecked) {
+                $input.parentsUntil($treeRoot, "li").children("input").each(function() {
+                  $(this).removeAttr("checked");
+                });
+              }
+              // Match all descenant nodes to current node (Checking or Unchecking)
+              $input.siblings("ul").find("input").each(function() { 
+                var $thisInput = $(this);
+                if($thisInput.is(":checked") && !refNodeIsChecked) { $thisInput.prop("checked", false); }
+                else if(!$thisInput.is(":checked") && refNodeIsChecked) { $thisInput.prop("checked", true); }
               });
             }
-            // Match all descenant nodes to current node (Checking or Unchecking)
-            $input.siblings("ul").find("input").each(function() { 
-              var $thisInput = $(this);
-              if($thisInput.is(":checked") && !refNodeIsChecked) { $thisInput.prop("checked", false); }
-              else if(!$thisInput.is(":checked") && refNodeIsChecked) { $thisInput.prop("checked", true); }
-            });
+            // Do always
+            if(refNodeIsChecked) {
+              // Craig here: Trying to trigger an EVENT to throw the selected CATID
+              $treeRoot.trigger( "selectionMade", $input.val());
+            }                
             $input.parent().jqTree("expand");
           });
     return $treeRoot;
@@ -87,11 +106,25 @@ var Globals = {
   },
 
   // Function to validate an url
-  urlExists : function (url) {
+  urlExistsOLD : function (url) {
       var http = new XMLHttpRequest();
       http.open('HEAD', url, false);
       http.send();
       return http.status !== 404;
+  },
+  
+  urlExists: function (url) {
+    $.ajax({
+      url: url,
+      crossDomain: true,
+      error: function ( jqXHR, textStatus, errorThrown ) {
+          console.log("error: " + textStatus + " et=" + errorThrown);
+      },
+      success : function ( data, textStatus, jqXHR ) {
+          console.log("sucess: " + textStatus)
+      }
+    });
+    return true;
   },
 
   // Ajax function that prevents caching

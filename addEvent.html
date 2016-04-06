@@ -3,7 +3,7 @@
 
   require_once($GLOBALS['phpPath'] . "/getVenueCombo.php"); 
   require_once($GLOBALS['phpPath'] . "/getActivityCombo.php"); 
-
+  require_once($GLOBALS['phpPath'] . "/buildCategoryTree.php"); 
 ?>
 
 <!doctype html>
@@ -18,6 +18,7 @@
     <link type="text/css" rel="stylesheet" href="<?=addSiteVersion('./resources/css/reset.css');?>" />
     <link type="text/css" rel="stylesheet" href="<?=addSiteVersion('./resources/css/layout.css');?>" />
     <link type="text/css" rel="stylesheet" href="<?=addSiteVersion('./resources/css/menu.css');?>" />
+    <link type="text/css" rel="stylesheet" href="./resources/thirdparty/jquery.timepicker.css" />
 
     <script type="text/javascript" src="<?=$GLOBALS['googleMap']?>"></script>
     <script type="text/javascript" src="./resources/thirdparty/jquery/js/jquery-1.9.0.js"></script>
@@ -29,6 +30,8 @@
     <script type="text/javascript" src="<?=addSiteVersion('./resources/js/wizard.js');?>"></script>
     <script type="text/javascript" src="<?=addSiteVersion('./resources/js/addEvents.js');?>"></script>
     <script type="text/javascript" src="<?=addSiteVersion('./resources/js/venueMarkers.js');?>"></script>
+    <script type="text/javascript" src="<?=addSiteVersion('./resources/js/eventMarkers.js');?>"></script>
+    <script type="text/javascript" src="./resources/thirdparty/jquery.timepicker.min.js"></script>
   </head>
 
   <body>
@@ -63,159 +66,56 @@
                   <button id="Search">Search</button>                    
                 </div>
               </div>
-              <h3>Selected Venue</h3>
               <div>Please select a venue using the map</div>
             </div>
             <div id="find-venue-map" style="width: 530px; height: 550px;"></div>
           </div>
         </div>
         
-        <div class="step" id="venue-event">
-          Here is the venue information:
+        <div class="step" id="event-date-time">
+          Venue information:
           <div>
-            <label>Venue Name</label>: <span id="venueName"/>
+            <label>Your event will be at</label>: <span id="venueName"/>
+          </div>
+          <div id="event-date">
+              <div id="selected-date">   </div>
+              <div id="selected-start-time">   </div>
+              <div id="selected-end-time">   </div>
+          </div>
+          <div id="time-parent">
+              <label>Event Start Time:</label>
+              <input id="event-start-time" style=" width:80px" class="time ui-timepicker-input" type="text" autocomplete="off">
+              </br>
+              <label>Event End Time:</label>
+              <input id="event-end-time" style=" width:80px" class="time ui-timepicker-input" type="text" autocomplete="off">
           </div>
         </div>
-
-
-<!--
-
-        <div class="step" style="width:550px;" id="venue-summary">
-          <h3>Venue Summary</h3>
-          <div class="form" id="venue-summary">
-            <div class="clearfix">
-              <div style="float:left; width:350px; padding-right:20px;">
-                <label for="venue-name">Name<span class="required" title="Required Field">*</span></label>
-                <input type="text" id="venue-name" class="hint" value="Venue Name" maxlength="60"/>
-              </div>
-              <div style="float:left; width:150px;">
-                <label for="venue-phone">Phone Number</label>
-                <input type="text" id="venue-phone" class="hint" value="(xxx) xxx-xxxx"/>
-              </div>
+          
+        <div class="step" id="event-cat-desc">
+            <div class="content">
+                Event Description (80 characters):
+                <input type="text" id="event-desc" class="hint default" value="Enter an EVENT Description..." style="width:600px;" >
             </div>
-            <div class="clearfix">
-              <div style="float:left; width:350px; padding-right:20px;">
-                <label for="venue-address">Address</label>
-                <input type="text" id="venue-address-1" class="hint" value="First line of Address" maxlength="80"/>
-                <input type="text" id="venue-address-2" class="hint" value="Second line of Address" maxlength="80"/>
-              </div>
-              <div style="float:left; width:150px; padding-right:20px;">
-                <label for="venue-type">Type<span class="required" title="Required Field">*</span></label>
-                <?php getVenueCombo(); ?>
-              </div>
+            <div class="content">
+                If you have a link to a web page regarding this event, enter the web address here.
+                Event URL (100 characters):
+                <input type="text" id="event-url" class="hint default" value="http://www.yoursite.com/eventInfo.html" style="width:800px;" >
             </div>
-            <div class="clearfix">
-              <div style="float:left; width:180px; padding-right:20px;">
-                <label for="venue-city">City<span class="required" title="Required Field" maxlength="20">*</span></label>
-                <input type="text" id="venue-city" class="hint" value="City Name"/>
-              </div>
-              <div style="float:left; width:60px; padding-right:20px;">
-                <label for="venue-state">State<span class="required" title="Required Field">*</span></label>
-                <select name="state" id="venue-state" style="width:100%;">
-                  <option value=""> </option>
-                  <option value="AL">AL</option>
-                  <option value="AK">AK</option>
-                  <option value="AZ">AZ</option>
-                  <option value="AR">AR</option>
-                  <option value="CA">CA</option>
-                  <option value="CO">CO</option>
-                  <option value="CT">CT</option>
-                  <option value="DE">DE</option>
-                  <option value="DC">DC</option>
-                  <option value="FL">FL</option>
-                  <option value="GA">GA</option>
-                  <option value="HI">HI</option>
-                  <option value="ID">ID</option>
-                  <option value="IL">IL</option>
-                  <option value="IN">IN</option>
-                  <option value="IA">IA</option>
-                  <option value="KS">KS</option>
-                  <option value="KY">KY</option>
-                  <option value="LA">LA</option>
-                  <option value="ME">ME</option>
-                  <option value="MD">MD</option>
-                  <option value="MA">MA</option>
-                  <option value="MI">MI</option>
-                  <option value="MN">MN</option>
-                  <option value="MS">MS</option>
-                  <option value="MO">MO</option>
-                  <option value="MT">MT</option>
-                  <option value="NE">NE</option>
-                  <option value="NV">NV</option>
-                  <option value="NH">NH</option>
-                  <option value="NJ">NJ</option>
-                  <option value="NM">NM</option>
-                  <option value="NY">NY</option>
-                  <option value="NC">NC</option>
-                  <option value="ND">ND</option>
-                  <option value="OH">OH</option>
-                  <option value="OK">OK</option>
-                  <option value="OR">OR</option>
-                  <option value="PA">PA</option>
-                  <option value="RI">RI</option>
-                  <option value="SC">SC</option>
-                  <option value="SD">SD</option>
-                  <option value="TN">TN</option>
-                  <option value="TX">TX</option>
-                  <option value="UT">UT</option>
-                  <option value="VT">VT</option>
-                  <option value="VA">VA</option>
-                  <option value="WA">WA</option>
-                  <option value="WV">WV</option>
-                  <option value="WI">WI</option>
-                  <option value="WY">WY</option>
-                </select>                
-              </div>
-              <div style="float:left; width:200px; padding-right:20px;">
-                <label for="venue-zipcode">Zip Code<span class="required">*</span></label>
-                <input style="width:70px" type="text" id="venue-zipcode" class="hint" value="Zip" maxlength="5"/>
-              </div>
+            <div class="content">
+              Select a category
+              <?php buildTree(); ?>
             </div>
-            <label for="venue-url">Web Site Address</label>
-            <input style="width:520px;" type="text" id="venue-url" class="hint" value="http://www.my-site.com" maxlength="200"/>
-            <label for="venue-logo">Logo Address</label>
-            <input style="width:520px;" type="text" id="venue-logo" class="hint" value="http://www.my-site.com/logo.jpg" maxlength="200"/>
-            <label for="venue-description">Description</label>
-            <textarea style="width:520px;" id="venue-description" name="description" rows="10" class="hint" value="Brief Description of the Venue" maxlength="200"></textarea>
-          </div>
         </div>
-        <div class="step" id="activity">
-          <h3>Persistent Activity</h3>
-          <div id="venue-activity">
-            <div style="width:200px; float:left; margin-right:20px;">
-              Select one or more activities that occur at your venue all the time.
-            </div>
-            <div class="content" style="width:530px; height:550px; float:left;">
-              <ul class="activities">
-                <li>
-
-                  <label>Activity</label>
-                  <?php getActivityCombo(); ?>
-                  <button class="remove-activity ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only  ui-dialog-titlebar-close" role="button" title="Remove Activity" style="margin-left:10px;">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
-                  </button>
-                </li>
-              </ul>
-              <ul><li><button class="add-activity">Add Activity</button></li></ul>
-            </div>
-          </div>
-        </div>
-        <div class="step" id="review">
-          <h3>Review</h3>
+          
+        <div class="step" id="review-event">
+          <h3>Review Venue</h3>
           <div id="venue-review">
-            <div id="review-instructions" style="position:block; width:200px; float:left; margin-right:20px;">
-              Review how your venue will look on our site. Use the Previous button to go back and adjust things such as your location on the map, logo, description, etc.<div></div>
-              Then you are satisified with the appearance, click Save.
+            <div id="find-venue" style="width:200px; float:left; margin-right:20px;">
+              Here is the venue to revue
             </div>
-            <div class="add-venue" id="map-review-div" style="width: 530px; height: 550px;"></div>
+            <div id="venue-review-map" style="width: 530px; height: 550px;"></div>
           </div>
         </div>
--->
-
-
-
-
-
       </div>
     </div>
   </body>

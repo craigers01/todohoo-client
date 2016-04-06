@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////
-// eventMarkers is a static class that handles submitting a query to the 
+// EventMarkers is a static class that handles submitting a query to the 
 // server and building an array of markers from the result.
 ////////////////////////////////////////////////////////////////////////////
 
-var eventMarkers = {
+var EventMarkers = {
 
   // Public function to retrieve markers for given search criteria
   searchMarkers : function(map, catList, fromDate, toDate, startLat, endLat, startLng, endLng, pageNum, markersCallback) {
@@ -107,6 +107,30 @@ var eventMarkers = {
                 "html");
   },
 
+  formatOneMarker : function(venueName, eventName, performerName, eventDate, eventStartTime, eventEndTime) {
+      html = "<div class='iWindow'><center><b>Venue:</b> " +  venueName + "</center>"
+      html += "<hr/>";
+
+      // Add Event Name
+      html += "<b>" + eventName + "</b><br/>";
+
+      // Add Performner
+      if (performerName !== "" && performerName !== undefined) {
+        html += "<b>Band:</b> " + performerName + "<br/>";
+      }
+
+      // Add Date
+      html += "<b>Date:</b> " + eventDate + "<br/>";
+          
+      // Add Time
+      if (eventEndTime === "" && eventEndTime !== undefined) {
+          html += "<b>Time:</b> " + eventStartTime + " - " + eventEndTime + "<br/>";          
+      } else {
+          html += "<b>Time:</b> " + eventStartTime + "<br/>";
+      }
+      return html;
+  },
+  
   // Associative array of Venue-type Icons
   venueIcons : {
     bar: {

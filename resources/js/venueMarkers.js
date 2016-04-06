@@ -5,10 +5,10 @@
 
 var VenueMarkers = {
   
-  venueSelected : function(venueName, venueId) {
+  venueSelected : function(venueName, venueId, lat, lng) {
     console.log("venue name: " +venueName);
     console.log("venue id: " +venueId);
-    AddEvent.venueSelected();
+    AddEvent.venueSelected(venueName, venueId, lat, lng);
   },
 
   // Public function to retrieve markers for given search criteria
@@ -39,7 +39,7 @@ var VenueMarkers = {
           });
           googleMarker.venueName = marker.venueName;
           googleMarker.venueId = marker.venueId;
-          googleMarker.content = PopupBuilder.addEvent_Venue(marker.venueName, marker.description, marker.venueId);
+          googleMarker.content = PopupBuilder.addEvent_Venue(marker.venueName, marker.description, marker.venueId, marker.lat, marker.lng);
         markersArray.push(googleMarker);
         }
         // Return Markers
